@@ -1,0 +1,80 @@
+﻿@model List<Produto>
+
+@{
+    ViewData["Title"] = "Produtos";
+}
+
+<h1> Produtos </h1>
+
+<!-- FILTRAGEM, BUSCA PELO NOME -->
+<form class="form-inline mb-3">
+    <input type="text" class="form-control mr-2" name="nome" placeholder="Digite o nome" />
+    <input type="submit" value="Pesquisar" class="btn btn-success" />
+</form>
+
+<!-- UTILIZANDO O COUNT (CONTA A QUANTIA DE ELEMENTOS NA LISTA), CASO O CONTADOR DE 0, NENHUM PRODUTO FOI ENCONTRADO COM AQUELE NOME -->
+@if (Model.Count == 0)
+{
+    <mensagem texto="Nenhum produto encontrado com este nome." class="alert alert-danger"></mensagem>}
+
+<!-- LINK PARA A TELA DE CADASTRO DE UM NOVO PRODUTO -->
+<a asp-action="cadastrar">Novo Produto</a>
+
+<table class="table">
+    <tr>
+        <th>Id</th>
+        <th>Nome</th>
+        <th>Peso</th>
+        <th>Quantidade</th>
+        <th>Data da Compra</th>
+        <th>Data de Validade </th>
+        <th>Descrição</th>
+        <th>Vegano</th>
+        <th></th>
+    </tr>
+    <!-- PARA CADA ITEM ENCONTRADO NA LISTA DE PRODUTOS -->
+    @foreach (var item in ViewBag.produtos)
+    {
+<tr>
+    <td>@item.ProdutoId</td>
+    <td>@item.Nome</td>
+    <td>@item.Peso</td>
+    <td>@item.Quantidade</td>
+    <td>@item.DataCompra.ToShortDateString()</td>
+    <td>@item.DataValidade.ToShortDateString()</td>
+    <td>@item.Descricao</td>
+    <td>@(item.Vegano?"Sim":"Não")</td>
+    <td>
+        <!-- LINK PARA A EDIÇÃO DE UM PRODUTO-->
+        <a asp-action="editar" asp-route-id="@item.ProdutoId" class="btn btn-primary btn-sm">Editar</a>
+        <!-- BOTÃO DE REMOVER -->
+        <button onclick="idCliente.value = @item.ProdutoId" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
+            Remover
+        </button>
+    </td>
+</tr>}
+</table>
+
+<!-- MODAL PARA A REMOÇÃO DE UM PRODUTO -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirmação</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Deseja realmente excluir o produto?
+            </div>
+            <div class="modal-footer">
+                <form asp-action="remover">
+                    <input type="hidden" name="id" id="idCliente" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+                    <button type="submit" class="btn btn-danger">Sim</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

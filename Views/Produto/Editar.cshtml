@@ -1,0 +1,16 @@
+﻿@model Produto
+
+@{
+    ViewData["Title"] = "Editando um Produto";
+}
+
+<h1> Editar Produto </h1>
+
+<form asp-action="editar">
+    <!-- ACESSANDO PELO ID O PRODUTO SELECIONADO -->
+    <input asp-for="ProdutoId" />
+    <!-- ACESSANDO O FORM CRIADO ATRAVÉAS DO PARTIAL -->
+    <partial name="_Form" />
+    <!-- BOTÃO DE EDIÇÂO -->
+    <input type="submit" value="Editar" class="btn btn-primary" />
+</form>

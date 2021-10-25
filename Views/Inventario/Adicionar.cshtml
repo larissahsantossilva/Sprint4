@@ -1,0 +1,50 @@
+﻿@model Inventario
+
+@{
+    ViewData["Title"] = "Inventário";
+}
+
+<h1>Inventario de @Model.Nome </h1>
+
+<table class="table">
+    <tr>
+        <th>Nome</th>
+        <th>Descrição</th>
+    </tr>
+    <tr>
+        <td>@Model.Nome</td>
+        <td>@Model.Descricao</td>
+    </tr>
+</table>
+
+<hr />
+<h2>Produtos</h2>
+
+
+<form asp-action="adicionar" class="form-inline mb-3">
+    <input type="hidden" name="inventarioId" value="@Model.InventarioId" />
+    <select class="form-control mr-2" name="produtoId" asp-items="@ViewBag.produtosSelect">
+        <option>Selecione</option>
+    </select>
+    <input type="submit" value="Adicionar" class="btn btn-success" />
+</form>
+
+<table class="table">
+    <tr>
+        <th>Nome</th>
+        <th>Peso</th>
+        <th>Quantidade</th>
+        <th>Descrição</th>
+    </tr>
+    @foreach (var item in ViewBag.produtos)
+    {
+        <tr>
+            <td>@item.Nome</td>
+            <td>@item.Peso</td>
+            <td>@item.Quantidade</td>
+            <td>@item.Descricao</td>
+        </tr>
+    }
+</table>
+
+<a asp-action="index" class="btn btn-primary">Finalizar</a>
